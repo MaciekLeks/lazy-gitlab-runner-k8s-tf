@@ -1,0 +1,23 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Ignore log files and crash logs
+*.log
+crash.log
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore sensitive files
+*.pem
+*.key
+*.pub
