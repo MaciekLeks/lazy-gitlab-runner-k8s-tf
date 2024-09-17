@@ -1,3 +1,27 @@
+
+variable "image" {
+  description = "The docker gitlab runner image."
+  default     = {}
+  type = object({
+    registry : optional(string, "registry.gitlab.com")
+    image : optional(string, "gitlab/gitlab-runner")
+    tag : optional(string)
+  })
+}
+
+variable "useTiny" {
+  description = "Use the tiny runner image"
+  default     = false
+  type        = bool
+}
+
+variable "concurrent" {
+  default     = 10
+  description = "Configure the maximum number of concurrent jobs"
+  type        = number
+}
+
+
 variable "runners" {
   type = list(object({
 

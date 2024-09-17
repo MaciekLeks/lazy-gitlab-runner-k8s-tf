@@ -17,7 +17,7 @@ I call this module "lazy" because it uses a simple approach, unlike the more com
 
 2. **Straightforward Design**: What you put into Terraform is directly reflected in the GitLab Runner setup. This makes it easier to understand and fix if needed.
 
-3. **Clear Structure**: We've removed unnecessary complications, making the module easier to understand and fix problems.
+3. **Clear Structure**: I've removed unnecessary complications, making the module easier to understand and fix problems.
 
 This "lazy" way focuses on keeping things simple and clear. It makes the module easier to use, especially for people who already know how to set up GitLab Runners.
 

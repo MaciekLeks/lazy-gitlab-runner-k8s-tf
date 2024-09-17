@@ -33,13 +33,28 @@ output "toml" {
 
 
 locals {
-  runners = provider::toml::encode({
+  runners_config = provider::toml::encode({
     runners = var.runners
   })
+
+  values = {
+    image      = var.image
+    useTiny    = var.useTiny
+    concurrent = var.concurrent
+
+    runners = provider::toml::encode({
+      config = local.runners_config
+    })
+
+  }
 }
 
-output "runners" {
-  value = local.runners
+output "helm_values" {
+  value = local.values
+}
+
+output "runners_config" {
+  value = local.runners_config
 }
 
 
