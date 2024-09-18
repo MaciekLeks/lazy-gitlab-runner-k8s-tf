@@ -15,6 +15,10 @@ runners = [
   {
     name  = "standard"
     shell = "bash"
+    environment = [
+      "ENV1=true",
+      "ENV2=cat and dog"
+    ]
     kubernetes = {
       namespace = "gitlab-runner"
 
@@ -28,6 +32,11 @@ runners = [
         pipelineId     = "$CI_PIPELINE_ID"
         project        = "$CI_PROJECT_NAME"
       } //pod labels
+
+      pod_annotations = {
+        "cluster-autoscaler.kubernetes.io/safe-to-evict" = "false"
+      }
+
 
     }
 

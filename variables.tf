@@ -25,12 +25,14 @@ variable "concurrent" {
 variable "runners" {
   type = list(object({
 
-    name     = string
-    executor = optional(string, "kubernetes")
-    shell    = optional(string, "bash")
+    name        = string
+    executor    = optional(string, "kubernetes")
+    shell       = optional(string, "bash")
+    environment = optional(list(string), null)
     kubernetes = object({
-      namespace  = string
-      pod_labels = optional(map(string), null) // job's pods labels
+      namespace       = string
+      pod_labels      = optional(map(string), null) // job's pods labels
+      pod_annotations = optional(map(string), null) // job's annotations
     })
 
     // start of cache block
