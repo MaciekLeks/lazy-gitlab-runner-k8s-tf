@@ -1,3 +1,18 @@
+variable "helm_settings" {
+  description = "The settings for the Helm chart."
+  type = object({
+    name             = optional(string, "gitlab-runner")
+    repository       = optional(string, "https://charts.gitlab.io")
+    chart            = optional(string, "gitlab-runner")
+    namespace        = optional(string, "gitlab-runner")
+    version          = optional(string, null) //default to last version
+    create_namespace = optional(bool, false)
+    atomic           = optional(bool, true)
+    wait             = optional(bool, true)
+  })
+  default = {}
+}
+
 
 variable "image" {
   description = "The docker gitlab runner image."
@@ -52,6 +67,13 @@ variable "readinessProbe" {
   default = {}
 }
 
+variable "replicas" {
+  description = "The number of runner pods to create."
+  type        = number
+  default     = 1
+}
+
+
 variable "concurrent" {
   default     = 10
   description = "Configure the maximum number of concurrent jobs"
@@ -65,7 +87,9 @@ variable "runners" {
     name        = string
     executor    = optional(string, "kubernetes")
     shell       = optional(string, "bash")
+    url         = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? //The GitLab Server URL (with protocol) that want to register the runner against
     environment = optional(list(string), null)
+
     kubernetes = object({
       namespace       = string
       pod_labels      = optional(map(string), null) // job's pods labels
