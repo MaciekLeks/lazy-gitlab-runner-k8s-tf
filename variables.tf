@@ -31,6 +31,27 @@ variable "imagePullSecrets" {
   default     = null
 }
 
+variable "livenessProbe" {
+  type = object({
+    initial_delay_seconds            = optional(number, 60)
+    period_seconds                   = optional(number, 10)
+    success_threshold                = optional(number, 1)
+    failure_threshold                = optional(number, 3)
+    termination_grace_period_seconds = optional(number, 30)
+  })
+  default = {}
+}
+
+variable "readinessProbe" {
+  type = object({
+    initial_delay_seconds = optional(number, 60)
+    period_seconds        = optional(number, 10)
+    success_threshold     = optional(number, 1)
+    failure_threshold     = optional(number, 3)
+  })
+  default = {}
+}
+
 variable "concurrent" {
   default     = 10
   description = "Configure the maximum number of concurrent jobs"

@@ -42,7 +42,13 @@ locals {
     useTiny          = var.useTiny
     imagePullPolicy  = var.imagePullPolicy
     imagePullSecrets = var.imagePullSecrets
-    concurrent       = var.concurrent
+
+    livenessProbe  = var.livenessProbe
+    readinessProbe = var.readinessProbe
+
+
+    concurrent = var.concurrent
+
 
     runners = provider::toml::encode({
       config = local.runners_config
