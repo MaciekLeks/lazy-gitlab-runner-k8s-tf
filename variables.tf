@@ -33,6 +33,15 @@ variable "runners" {
       namespace       = string
       pod_labels      = optional(map(string), null) // job's pods labels
       pod_annotations = optional(map(string), null) // job's annotations
+
+      volumes = optional(object({
+        empty_dir = optional(list(object({
+          name       = string
+          mount_path = string
+          medium     = optional(string, null)
+          size_limit = optional(string, null)
+        })), null)
+      }), null)
     })
 
     // start of cache block

@@ -38,6 +38,18 @@ runners = [
       }
 
 
+      volumes = {
+        empty_dir = [{
+          name       = "docker-certs"
+          mount_path = "/certs/client"
+          medium     = "Memory"
+          size_limit = "10Mi"
+        }]
+      }
+
+
+
+
     }
 
     cache = {
