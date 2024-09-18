@@ -15,6 +15,22 @@ variable "useTiny" {
   type        = bool
 }
 
+variable "imagePullPolicy" {
+  description = "Specify the job images pull policy: Never, IfNotPresent, Always."
+  type        = string
+  default     = "IfNotPresent"
+  validation {
+    condition     = contains(["Never", "IfNotPresent", "Always"], var.imagePullPolicy)
+    error_message = "Must be one of: \"Never\", \"IfNotPresent\", \"Always\"."
+  }
+}
+
+variable "imagePullSecrets" {
+  description = "A array of secrets that are used to authenticate Docker image pulling."
+  type        = list(object({ name = string }))
+  default     = null
+}
+
 variable "concurrent" {
   default     = 10
   description = "Configure the maximum number of concurrent jobs"

@@ -1,3 +1,11 @@
+imagePullPolicy = "Always"
+
+imagePullSecrets = [
+  {
+    name = "gitlab-registry"
+  }
+]
+
 runners = [
   {
     name  = "runner1"
@@ -15,6 +23,8 @@ runners = [
   {
     name  = "standard"
     shell = "bash"
+
+
     environment = [
       "ENV1=true",
       "ENV2=cat and dog"
