@@ -116,6 +116,12 @@ variable "runners" {
       pod_labels      = optional(map(string), null) // job's pods labels
       pod_annotations = optional(map(string), null) // job's annotations
 
+      image                            = optional(string) //The image to run jobs with.
+      helper_image                     = optional(string) //The default helper image used to clone repositories and upload artifacts.
+      helper_image_flavor              = optional(string) //Sets the helper image flavor (alpine, alpine3.16, alpine3.17, alpine3.18, alpine3.19, alpine-latest, ubi-fips or ubuntu). Defaults to alpine. The alpine flavor uses the same version as alpine3.19.
+      helper_image_autoset_arch_and_os = optional(string) //Uses the underlying OS to set the Helper Image ARCH and OS.
+
+
 
       // cpu requests and limits
       cpu_limit : optional(string)
