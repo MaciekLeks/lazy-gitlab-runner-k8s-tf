@@ -123,7 +123,7 @@ variable "logLevel" {
   type        = string
   default     = "info"
   validation {
-    condition     = contains(["debug", "info", "warn", "error", "fatal", "panic"], var.log_level)
+    condition     = contains(["debug", "info", "warn", "error", "fatal", "panic"], var.logLevel)
     error_message = "Must be one of: \"debug\", \"info\", \"warn\", \"error\", \"fatal\", \"panic\"."
   }
 }
