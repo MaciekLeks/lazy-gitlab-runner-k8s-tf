@@ -104,6 +104,49 @@ variable "runners" {
       pod_labels      = optional(map(string), null) // job's pods labels
       pod_annotations = optional(map(string), null) // job's annotations
 
+
+      // cpu requests and limits
+      cpu_limit : optional(string)
+      cpu_limit_overwrite_max_allowed : optional(string)
+      cpu_request : optional(string)
+      cpu_request_overwrite_max_allowed : optional(string)
+      memory_limit : optional(string)
+      memory_limit_overwrite_max_allowed : optional(string)
+      memory_request : optional(string)
+      memory_request_overwrite_max_allowed : optional(string)
+      ephemeral_storage_limit : optional(string)
+      ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+      ephemeral_storage_request : optional(string)
+      ephemeral_storage_request_overwrite_max_allowed : optional(string)
+
+      //helper containers
+      helper_cpu_limit : optional(string)
+      helper_cpu_limit_overwrite_max_allowed : optional(string)
+      helper_cpu_request : optional(string)
+      helper_cpu_request_overwrite_max_allowed : optional(string)
+      helper_memory_limit : optional(string)
+      helper_memory_limit_overwrite_max_allowed : optional(string)
+      helper_memory_request : optional(string)
+      helper_memory_request_overwrite_max_allowed : optional(string)
+      helper_ephemeral_storage_limit : optional(string)
+      helper_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+      helper_ephemeral_storage_request : optional(string)
+      helper_ephemeral_storage_request_overwrite_max_allowed : optional(string)
+
+      // service containers
+      service_cpu_limit : optional(string)
+      service_cpu_limit_overwrite_max_allowed : optional(string)
+      service_cpu_request : optional(string)
+      service_cpu_request_overwrite_max_allowed : optional(string)
+      service_memory_limit : optional(string)
+      service_memory_limit_overwrite_max_allowed : optional(string)
+      service_memory_request : optional(string)
+      service_memory_request_overwrite_max_allowed : optional(string)
+      service_ephemeral_storage_limit : optional(string)
+      service_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+      service_ephemeral_storage_request : optional(string)
+      service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
+
       volumes = optional(object({
         empty_dir = optional(list(object({
           name       = string
