@@ -17,6 +17,10 @@ locals {
     runnerToken                   = var.runnerToken
     uregisterRunners              = var.unregisterRunners
     terminationGracePeriodSeconds = var.terminationGracePeriodSeconds
+    certSecretName                = var.certSecretName
+    shutdown_timeout              = var.shutdown_timeout
+    checkInterval                 = var.checkInterval
+    logLevel                      = var.logLevel
 
 
     concurrent = var.concurrent

@@ -92,12 +92,40 @@ variable "terminationGracePeriodSeconds" {
   default     = 3600
 }
 
-
+variable "certSecretName" {
+  description = "Set the certsSecretName in order to pass custom certficates for GitLab Runner to use."
+  type        = string
+  default     = null
+}
 
 variable "concurrent" {
   default     = 10
   description = "Configure the maximum number of concurrent jobs"
   type        = number
+}
+
+
+variable "shutdown_timeout" {
+  description = "Number of seconds until the forceful shutdown operation times out and exits the process. The default value is 30. If set to 0 or lower, the default value is used."
+  type        = number
+  default     = 0
+}
+
+
+variable "checkInterval" {
+  description = "Defines in seconds how often to check GitLab for a new builds."
+  type        = number
+  default     = 3
+}
+
+variable "logLevel" {
+  description = "Configure GitLab Runner's logging level. Available values are: debug, info, warn, error, fatal, panic."
+  type        = string
+  default     = "info"
+  validation {
+    condition     = contains(["debug", "info", "warn", "error", "fatal", "panic"], var.log_level)
+    error_message = "Must be one of: \"debug\", \"info\", \"warn\", \"error\", \"fatal\", \"panic\"."
+  }
 }
 
 
