@@ -14,7 +14,10 @@ locals {
 
     replicas = var.replicas
 
-    runnerToken = var.runnerToken
+    runnerToken                   = var.runnerToken
+    uregisterRunners              = var.unregisterRunners
+    terminationGracePeriodSeconds = var.terminationGracePeriodSeconds
+
 
     concurrent = var.concurrent
 

@@ -79,6 +79,18 @@ variable "runnerToken" {
   type        = string
 }
 
+variable "unregisterRunners" {
+  description = "Unregister runners before termination."
+  type        = bool
+  default     = true
+}
+
+
+variable "terminationGracePeriodSeconds" {
+  description = "When stopping the runner, give it time (in seconds) to wait for its jobs to terminate."
+  type        = number
+  default     = 3600
+}
 
 
 
