@@ -21,7 +21,11 @@ locals {
     shutdown_timeout              = var.shutdown_timeout
     checkInterval                 = var.checkInterval
     logLevel                      = var.logLevel
-
+    logFormat                     = var.logFormat
+    sentryDsn                     = var.sentryDsn
+    connectionMaxAge              = var.connectionMaxAge
+    preEntryScript                = var.preEntryScript
+    sessionServer                 = var.sessionServer
 
     concurrent = var.concurrent
 

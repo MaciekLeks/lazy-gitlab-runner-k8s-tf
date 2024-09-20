@@ -128,6 +128,55 @@ variable "logLevel" {
   }
 }
 
+variable "logFormat" {
+  description = "Specifies the log format. Options are runner, text, and json. This setting has lower priority than the format set by command-line argument --log-format. The default value is runner, which contains ANSI escape codes for coloring."
+  type        = string
+  default     = "runner"
+  validation {
+    condition     = contains(["runner", "text", "json"], var.logFormat)
+    error_message = "Must be one of: \"runner\", \"text\", \"json\"."
+  }
+}
+
+variable "sentryDsn" {
+  description = "Configure GitLab Runner's Sentry DSN."
+  type        = string //TODO: ?
+  default     = null
+}
+
+variable "connectionMaxAge" {
+  description = "Configure GitLab Runner's maximum connection age for TLS keepalive connections."
+  type        = string
+  default     = "15m0s"
+}
+
+variable "preEntryScript" {
+  description = "A custom bash script that will be executed prior to the invocation of the gitlab-runner process"
+  type        = string
+  default     = null
+}
+
+variable "sessionServer" {
+  description = "Configuration for the session server"
+  type = object({
+    enabled                  = optional(bool, false)
+    annotations              = optional(map(string), null)
+    timeout                  = optional(number, null)
+    internalPort             = optional(number, null)
+    externalPort             = optional(number, null)
+    nodePort                 = optional(number, null)
+    publicIP                 = optional(string, null)
+    loadBalancerSourceRanges = optional(list(string), null)
+    serviceType              = optional(string, null)
+  })
+  default = {}
+  validation {
+    condition     = var.sessionServer.enabled ? contains(["ClusterIP", "Headless", "NodePort", "LoadBalancer"], var.sessionServer.serviceType) : true
+    error_message = "The serviceType must be one of: ClusterIP, Headless, NodePort, LoadBalancer."
+  }
+}
+
+
 
 variable "runners" {
   type = list(object({
