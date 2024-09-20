@@ -9,6 +9,7 @@ variable "helm_settings" {
     create_namespace = optional(bool, false)
     atomic           = optional(bool, true)
     wait             = optional(bool, true)
+    timeout          = optional(number, 300)
   })
   default = {}
 }
@@ -19,7 +20,7 @@ variable "image" {
   default     = {}
   type = object({
     registry : optional(string, "registry.gitlab.com")
-    image : optional(string, "gitlab/gitlab-runner")
+    image : optional(string, "gitlab-org/gitlab-runner")
     tag : optional(string)
   })
 }
@@ -73,6 +74,13 @@ variable "replicas" {
   default     = 1
 }
 
+variable "runnerToken" {
+  description = "The Runner Token for adding new Runners to the GitLab Server."
+  type        = string
+}
+
+
+
 
 variable "concurrent" {
   default     = 10
@@ -84,10 +92,11 @@ variable "concurrent" {
 variable "runners" {
   type = list(object({
 
-    name        = string
-    executor    = optional(string, "kubernetes")
-    shell       = optional(string, "bash")
-    url         = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? //The GitLab Server URL (with protocol) that want to register the runner against
+    name     = string
+    executor = optional(string, "kubernetes")
+    shell    = optional(string, "bash")
+    url      = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? The GitLab Server URL (with protocol) that want to register the runner against
+
     environment = optional(list(string), null)
 
     kubernetes = object({

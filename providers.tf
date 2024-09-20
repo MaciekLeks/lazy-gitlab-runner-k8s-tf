@@ -20,4 +20,15 @@ terraform {
 provider "toml" {
 }
 
+//TODO - remove this block
+//test block
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
+
+//
+
 

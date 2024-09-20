@@ -14,33 +14,36 @@ locals {
 
     replicas = var.replicas
 
+    runnerToken = var.runnerToken
+
     concurrent = var.concurrent
 
 
-    runners = provider::toml::encode({
+    runners = {
       config = local.runners_config
-    })
-
+    }
   }
 }
 
-# TODO: uncomment this block to create the helm_release resource
-# resource "helm_release" "gitlab_runner" {
-#   name             = var.helm_settings.name
-#   repository       = var.helm_settings.repository
-#   chart            = var.helm_settings.chart
-#   namespace        = var.helm_settings.namespace
-#   version          = var.helm_settings.version
-#   create_namespace = var.helm_settings.create_namespace
-#   atomic           = var.helm_settings.atomic
-#   wait             = var.helm_settings.wait
-#
-#   values = [yamlencode(local.values)]
-# }
-#
-# output "helm_release" {
-#   value = helm_release.gitlab_runner
-# }
+//TODO: uncomment this block to create the helm_release resource
+resource "helm_release" "gitlab_runner" {
+  name             = var.helm_settings.name
+  repository       = var.helm_settings.repository
+  chart            = var.helm_settings.chart
+  namespace        = var.helm_settings.namespace
+  version          = var.helm_settings.version
+  create_namespace = var.helm_settings.create_namespace
+  atomic           = var.helm_settings.atomic
+  wait             = var.helm_settings.wait
+  timeout          = var.helm_settings.timeout
+
+  values = [yamlencode(local.values)]
+}
+
+output "helm_release" {
+  value     = helm_release.gitlab_runner
+  sensitive = true
+}
 
 
 output "helm_values" {
