@@ -29,6 +29,8 @@ locals {
     sessionServer                 = var.sessionServer
     rbac                          = var.rbac
     serviceAccount                = var.serviceAccount
+    metrics                       = var.metrics
+
 
 
     runners = {

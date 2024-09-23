@@ -211,6 +211,26 @@ variable "serviceAccount" {
   default = {}
 }
 
+variable "metrics" {
+  description = "Configure integrated Prometheus metrics exporter."
+  type = object({
+    enabled : optional(bool, false)
+    portName : optional(string, "metrics")
+    port : optional(number, 9252)
+    serviceMonitor : optional(object({
+      enabled : optional(bool, false)
+      labels : optional(map(string), {})
+      annotations : optional(map(string), {})
+      interval : optional(string, "1m")
+      scheme : optional(string, "http")
+      tlsConfig : optional(map(string), {})
+      path : optional(string, "/metrics")
+      metricRelabeling : optional(list(string), [])
+      relabelings : optional(list(string), [])
+    }), {})
+  })
+  default = {}
+}
 
 
 
