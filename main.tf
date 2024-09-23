@@ -17,6 +17,7 @@ locals {
     runnerToken                   = var.runnerToken
     uregisterRunners              = var.unregisterRunners
     terminationGracePeriodSeconds = var.terminationGracePeriodSeconds
+    concurrent                    = var.concurrent
     certSecretName                = var.certSecretName
     shutdown_timeout              = var.shutdown_timeout
     checkInterval                 = var.checkInterval
@@ -26,8 +27,8 @@ locals {
     connectionMaxAge              = var.connectionMaxAge
     preEntryScript                = var.preEntryScript
     sessionServer                 = var.sessionServer
-
-    concurrent = var.concurrent
+    rbac                          = var.rbac
+    serviceAccount                = var.serviceAccount
 
 
     runners = {

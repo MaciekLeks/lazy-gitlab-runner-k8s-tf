@@ -43,8 +43,10 @@ variable "imagePullPolicy" {
 
 variable "imagePullSecrets" {
   description = "A array of secrets that are used to authenticate Docker image pulling."
-  type        = list(object({ name = string }))
-  default     = null
+  type = list(object({
+    name = string
+  }))
+  default = null
 }
 
 variable "livenessProbe" {
@@ -175,6 +177,40 @@ variable "sessionServer" {
     error_message = "The serviceType must be one of: ClusterIP, Headless, NodePort, LoadBalancer."
   }
 }
+
+variable "rbac" {
+  description = "RBAC support."
+  type = object({
+    create : optional(bool, false) #create k8s SA and apply RBAC roles #depreciated
+
+    rules : optional(list(object({           # Define list of rules to be added to the rbac role permissions.
+      resources : optional(list(string), []) #resources : optional(list(string), ["pods", "pods/exec", "pods/attach", "secrets", "configmaps"])
+      apiGroups : optional(list(string), [""])
+      verbs : optional(list(string)) #verbs : optional(list(string), ["get", "list", "watch", "create", "patch", "delete"])
+    })), [])
+
+    clusterWideAccess : optional(bool, false)
+
+    podSecurityPolicy : optional(object({
+      enabled : optional(bool, false)
+      resourceNames : optional(list(string), [])
+    }), {})
+  })
+  default = {}
+}
+
+
+variable "serviceAccount" {
+  description = "The name of the k8s service account to create (since 17.x.x)"
+  type = object({
+    create           = optional(bool, false)
+    name             = optional(string, "")
+    annotations      = optional(map(string), {})
+    imagePullSecrets = optional(list(string), [])
+  })
+  default = {}
+}
+
 
 
 
