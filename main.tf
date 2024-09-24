@@ -41,6 +41,7 @@ locals {
     strategy           = var.strategy
     podSecurityContext = var.podSecurityContext
     resources          = var.resources
+    affinity           = var.affinity
   }
 }
 

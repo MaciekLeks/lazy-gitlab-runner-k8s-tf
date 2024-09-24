@@ -321,6 +321,136 @@ variable "resources" {
   })
 }
 
+variable "affinity" {
+  description = "Affinity for runner pod assignment."
+  default     = {}
+  type = object({
+    nodeAffinity : optional(object({
+      preferredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        weight : number
+        preference : object({
+          matchExpressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          matchFields : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+        })
+      })), null)
+      requiredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        nodeSelectorTerms : object({
+          matchExpressions : optional(object({
+            key : string
+            operator : string
+            values : list(string)
+          }))
+          matchFields : optional(object({
+            key : string
+            operator : string
+            values : list(string)
+          }))
+        })
+      })), null)
+    }), null)
+
+    podAffinity : optional(object({
+      preferredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        podAffinityTerm : object({
+          weight : number
+          topology_key : string
+          namespaces : optional(list(string))
+          labelSelector : optional(object({
+            matchExpressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            matchLabels : optional(list(string))
+          }))
+          namespaceSelector : optional(object({
+            matchExpressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            matchLabels : optional(list(string))
+          }))
+        })
+      })), null)
+      requiredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        topology_key : string
+        namespaces : optional(list(string))
+        labelSelector : optional(object({
+          matchExpressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          matchLabels : optional(list(string))
+        }))
+        namespaceSelector : optional(object({
+          matchExpressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          matchLabels : optional(list(string))
+        }))
+      })), null)
+    }), null)
+
+    podAntiAffinity : optional(object({
+      preferredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        podAffinityTerm : object({
+          weight : number
+          topology_key : string
+          namespaces : optional(list(string))
+          labelSelector : optional(object({
+            matchExpressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            matchLabels : optional(list(string))
+          }))
+          namespaceSelector : optional(object({
+            matchExpressions : optional(list(object({
+              key : string
+              operator : string
+              values : list(string)
+            })))
+            matchLabels : optional(list(string))
+          }))
+        })
+      })), null)
+      requiredDuringSchedulingIgnoredDuringExecution : optional(list(object({
+        topology_key : string
+        namespaces : optional(list(string))
+        labelSelector : optional(object({
+          matchExpressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          matchLabels : optional(list(string))
+        }))
+        namespaceSelector : optional(object({
+          matchExpressions : optional(list(object({
+            key : string
+            operator : string
+            values : list(string)
+          })))
+          matchLabels : optional(list(string))
+        }))
+      })), null)
+    }), null)
+  }) //affinity
+}
+
 
 
 variable "runners" {
