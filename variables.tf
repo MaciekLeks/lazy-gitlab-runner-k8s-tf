@@ -509,10 +509,40 @@ variable "tolerations" {
   }
 }
 
+variable "nodeSelector" {
+  description = "A map of node selectors to apply to the pods"
+  default     = {}
+  type        = map(string)
+}
+
+variable "envVars" {
+  description = "Configure environment variables that will be present when the registration command runs."
+  type = map(object({
+    name : string
+    value : string
+  }))
+  default = null
+}
+
+variable "extraEnv" {
+  description = "Extra environment variables to be added to the runner pods."
+  type        = map(string)
+  default     = {}
+}
+
+variable "extraEnvFrom" {
+  description = "Additional environment variables from other data sources (k8s secrets)."
+  type = map(object({
+    secretKeyRef : object({
+      name : string
+      key : string
+    })
+  }))
+  default = {}
+}
 
 variable "runners" {
   type = list(object({
-
     name     = string
     executor = optional(string, "kubernetes")
     shell    = optional(string, "bash")

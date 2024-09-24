@@ -43,7 +43,12 @@ locals {
     resources                 = var.resources
     affinity                  = var.affinity
     topologySpreadConstraints = var.topologySpreadConstraints
+    nodeSelector              = var.nodeSelector
     tolerations               = var.tolerations
+    envVars                   = var.envVars
+    extraEnv                  = var.extraEnv
+    extraEnvVars              = var.extraEnvFrom
+
   }
 }
 
