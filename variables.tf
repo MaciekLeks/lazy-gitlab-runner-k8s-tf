@@ -561,6 +561,12 @@ variable "deploymentLabels" {
   default     = {}
 }
 
+variable "deploymentLifecycle" {
+  description = "Configure the lifecycle of the runner deployment."
+  type        = map(any)
+  default     = {}
+}
+
 variable "runners" {
   type = list(object({
     name     = string

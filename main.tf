@@ -51,6 +51,7 @@ locals {
     hostAliases               = var.hostAliases
     deploymentAnnotations     = var.deploymentAnnotations
     deploymentLabels          = var.deploymentLabels
+    deploymentLifecycle       = var.deploymentLifecycle
 
   }
 }
