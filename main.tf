@@ -43,6 +43,7 @@ locals {
     resources                 = var.resources
     affinity                  = var.affinity
     topologySpreadConstraints = var.topologySpreadConstraints
+    tolerations               = var.tolerations
   }
 }
 

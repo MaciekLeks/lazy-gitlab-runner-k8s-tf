@@ -486,6 +486,29 @@ variable "topologySpreadConstraints" {
   }
 }
 
+variable "tolerations" {
+  description = "List of node taints to tolerate by the runner PODs."
+  default     = []
+  type = list(object({
+    key : string
+    operator : string
+    value : string
+    effect : string
+  }))
+  validation {
+    condition = alltrue([
+      for t in var.tolerations : contains(["Equal", "Exists", "NotExists"], t.operator)
+    ])
+    error_message = "Must be one of: \"Equal\", \"Exists\", \"NotExists\"."
+  }
+  validation {
+    condition = alltrue([
+      for t in var.tolerations : contains(["NoSchedule", "PreferNoSchedule", "NoExecute"], t.effect)
+    ])
+    error_message = "Must be one of: \"NoSchedule\", \"PreferNoSchedule\", \"NoExecute\"."
+  }
+}
+
 
 variable "runners" {
   type = list(object({
