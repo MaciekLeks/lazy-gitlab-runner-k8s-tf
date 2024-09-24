@@ -274,6 +274,23 @@ variable "securityContext" {
   default = {}
 }
 
+variable "strategy" {
+  description = "Configure update strategy for multi-replica deployments"
+  type = object({
+    type = string
+    rollingUpdate = optional(object({
+      maxSurge       = string
+      maxUnavailable = string
+    }), null)
+  })
+  default = null
+
+  validation {
+    condition     = var.strategy != null ? contains(["RollingUpdate", "Recreate"], var.strategy.type) : true
+    error_message = "Invalid deployment strategy type. Allowed values are 'RollingUpdate' or 'Recreate'."
+  }
+}
+
 
 
 variable "runners" {

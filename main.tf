@@ -38,6 +38,7 @@ locals {
     }
 
     securityContext = var.securityContext
+    strategy        = var.strategy
   }
 }
 
