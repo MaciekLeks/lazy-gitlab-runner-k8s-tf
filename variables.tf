@@ -304,6 +304,24 @@ variable "podSecurityContext" {
 }
 
 
+variable "resources" {
+  description = "The CPU and memory resources given to the runner."
+  default     = null
+  type = object({
+    requests = optional(object({
+      cpu               = optional(string)
+      memory            = optional(string)
+      ephemeral-storage = optional(string)
+    })),
+    limits = optional(object({
+      cpu               = optional(string)
+      memory            = optional(string)
+      ephemeral-storage = optional(string)
+    }))
+  })
+}
+
+
 
 variable "runners" {
   type = list(object({

@@ -40,6 +40,7 @@ locals {
     securityContext    = var.securityContext
     strategy           = var.strategy
     podSecurityContext = var.podSecurityContext
+    resources          = var.resources
   }
 }
 
