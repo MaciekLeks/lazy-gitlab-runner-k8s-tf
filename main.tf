@@ -33,11 +33,11 @@ locals {
     service                       = var.service
     scheulerName                  = var.schedulerName
 
-
-
     runners = {
       config = local.runners_config
     }
+
+    securityContext = var.securityContext
   }
 }
 

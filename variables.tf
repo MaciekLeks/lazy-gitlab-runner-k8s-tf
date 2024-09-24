@@ -259,6 +259,23 @@ variable "schedulerName" {
 }
 
 
+variable "securityContext" {
+  description = "Runner container security context."
+  type = object({
+    allowPrivilegeEscalation : optional(bool, false)
+    readOnlyRootFilesystem : optional(bool, false)
+    runAsNonRoot : optional(bool, true)
+    privileged : optional(bool, false)
+    capabilities : optional(object({
+      add : optional(list(string), [])
+      drop : optional(list(string), [])
+    }), { drop : ["ALL"] })
+  })
+  default = {}
+}
+
+
+
 variable "runners" {
   type = list(object({
 
