@@ -292,6 +292,18 @@ variable "strategy" {
 }
 
 
+variable "podSecurityContext" {
+  description = "Runner ecurity context for the whole POD."
+  type = object({
+    runAsUser : optional(number, 100)
+    runAsGroup : optional(number, 65533)
+    fsGroup : optional(number, 65533)
+    supplementalGroups : optional(list(number), [65533])
+  })
+  default = {}
+}
+
+
 
 variable "runners" {
   type = list(object({
