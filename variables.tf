@@ -233,6 +233,27 @@ variable "metrics" {
 }
 
 
+variable "service" {
+  description = "Configure a service resource e.g., to allow scraping metrics via prometheus-operator serviceMonitor."
+  type = object({
+    enabled : optional(bool, false)
+    labels : optional(map(string), {})
+    annotations : optional(map(string), {})
+    clusterIP : optional(string, "")
+    externalIPs : optional(list(string), [])
+    loadBalancerIP : optional(string, "")
+    loadBalancerSourceRanges : optional(list(string), [])
+    type : optional(string, "ClusterIP")
+    metrics : optional(object({
+      nodePort : optional(string, "")
+    }), null),
+    additionalPorts : optional(list(string), [])
+  })
+  default = {}
+}
+
+
+
 
 variable "runners" {
   type = list(object({
