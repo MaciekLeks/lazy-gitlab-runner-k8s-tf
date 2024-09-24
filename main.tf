@@ -49,6 +49,8 @@ locals {
     extraEnv                  = var.extraEnv
     extraEnvVars              = var.extraEnvFrom
     hostAliases               = var.hostAliases
+    deploymentAnnotations     = var.deploymentAnnotations
+    deploymentLabels          = var.deploymentLabels
 
   }
 }

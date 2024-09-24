@@ -291,7 +291,6 @@ variable "strategy" {
   }
 }
 
-
 variable "podSecurityContext" {
   description = "Runner ecurity context for the whole POD."
   type = object({
@@ -541,7 +540,6 @@ variable "extraEnvFrom" {
   default = {}
 }
 
-
 variable "hostAliases" {
   description = "List of hosts and IPs that will be injected into the pod's hosts file."
   type = list(object({
@@ -549,6 +547,18 @@ variable "hostAliases" {
     hostnames : list(string)
   }))
   default = []
+}
+
+variable "deploymentAnnotations" {
+  description = "Annotations to be added to the runner deployment."
+  type        = map(string)
+  default     = {}
+}
+
+variable "deploymentLabels" {
+  description = "Labels to be added to the runner deployment."
+  type        = map(string)
+  default     = {}
 }
 
 variable "runners" {
