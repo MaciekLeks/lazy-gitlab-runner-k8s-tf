@@ -48,6 +48,7 @@ locals {
     envVars                   = var.envVars
     extraEnv                  = var.extraEnv
     extraEnvVars              = var.extraEnvFrom
+    hostAliases               = var.hostAliases
 
   }
 }

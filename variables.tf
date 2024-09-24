@@ -541,6 +541,16 @@ variable "extraEnvFrom" {
   default = {}
 }
 
+
+variable "hostAliases" {
+  description = "List of hosts and IPs that will be injected into the pod's hosts file."
+  type = list(object({
+    ip : string
+    hostnames : list(string)
+  }))
+  default = []
+}
+
 variable "runners" {
   type = list(object({
     name     = string
