@@ -252,7 +252,11 @@ variable "service" {
   default = {}
 }
 
-
+variable "schedulerName" {
+  description = "The name of the scheduler to use."
+  type        = string
+  default     = null
+}
 
 
 variable "runners" {

@@ -31,6 +31,7 @@ locals {
     serviceAccount                = var.serviceAccount
     metrics                       = var.metrics
     service                       = var.service
+    scheulerName                  = var.schedulerName
 
 
 
