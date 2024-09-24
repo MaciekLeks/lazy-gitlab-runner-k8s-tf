@@ -451,6 +451,40 @@ variable "affinity" {
   }) //affinity
 }
 
+variable "topologySpreadConstraints" {
+  description = "TopologySpreadConstraints for pod assignment."
+  default     = null
+  type = list(object({
+    maxSkew : number
+    minDomain : optional(number, 1)
+    topologyKey : string
+    whenUnsatisfiable : string
+    labelSelector : object({
+      matchLabels : optional(map(string), {})
+      matchExpressions : optional(list(object({
+        key : string
+        operator : string
+        values : list(string)
+      })), [])
+    })
+    matchLabelKeys : optional(list(string), null)
+    nodeAffinityPolicy : optional(string, null)
+    nodeTaintsPolicy : optional(string, null)
+  }))
+  // add validation for the nodeAffinityPolicy and nodeTaintsPolicy
+  validation {
+    condition = var.topologySpreadConstraints != null ? alltrue([
+      for t in var.topologySpreadConstraints : t.nodeAffinityPolicy != null ? contains(["Honor", "Ignore"], t.nodeAffinityPolicy) : true
+    ]) : true
+    error_message = "Must be one of: \"Honor\", \"Ignore\"."
+  }
+  validation {
+    condition = var.topologySpreadConstraints != null ? alltrue([
+      for t in var.topologySpreadConstraints : t.nodeTaintsPolicy != null ? contains(["Honor", "Ignore"], t.nodeTaintsPolicy) : true
+    ]) : true
+    error_message = "Must be one of: \"Honor\", \"Ignore\"."
+  }
+}
 
 
 variable "runners" {

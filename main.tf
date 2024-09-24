@@ -37,11 +37,12 @@ locals {
       config = local.runners_config
     }
 
-    securityContext    = var.securityContext
-    strategy           = var.strategy
-    podSecurityContext = var.podSecurityContext
-    resources          = var.resources
-    affinity           = var.affinity
+    securityContext           = var.securityContext
+    strategy                  = var.strategy
+    podSecurityContext        = var.podSecurityContext
+    resources                 = var.resources
+    affinity                  = var.affinity
+    topologySpreadConstraints = var.topologySpreadConstraints
   }
 }
 
