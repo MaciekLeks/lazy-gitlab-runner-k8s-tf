@@ -672,6 +672,45 @@ variable "priorityClassName" {
   default     = ""
 }
 
+variable "secrets" {
+  description = " Secrets to be additionally mounted to the containers."
+  type = list(object({
+    name = string
+    items = optional(list(object({
+      key  = string
+      path = string
+    })))
+  }))
+  default = []
+}
+
+variable "automountServiceAccountToken" {
+  description = "Automount service account token in the deployment.."
+  type        = bool
+  default     = false
+}
+
+// TODO: add static typing when it's going to be clear
+variable "configMaps" {
+  description = "Additional ConfiMaps to be mounted."
+  type        = map(any)
+  default     = null
+}
+
+
+variable "volumeMounts" {
+  description = "Additional volumeMounts to add to the runner container."
+  type = list(object({
+    mountPath : string
+    name : string
+    mountPropagation : optional(string)
+    readOnly : optional(bool, false)
+    subPath : optional(string)
+    subPathExpr : optional(string)
+  }))
+  default = []
+}
+
 variable "runners" {
   type = list(object({
     name     = string

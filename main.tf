@@ -37,23 +37,27 @@ locals {
       config = local.runners_config
     }
 
-    securityContext           = var.securityContext
-    strategy                  = var.strategy
-    podSecurityContext        = var.podSecurityContext
-    resources                 = var.resources
-    affinity                  = var.affinity
-    topologySpreadConstraints = var.topologySpreadConstraints
-    nodeSelector              = var.nodeSelector
-    tolerations               = var.tolerations
-    envVars                   = var.envVars
-    extraEnv                  = var.extraEnv
-    extraEnvVars              = var.extraEnvFrom
-    hostAliases               = var.hostAliases
-    deploymentAnnotations     = var.deploymentAnnotations
-    deploymentLabels          = var.deploymentLabels
-    deploymentLifecycle       = var.deploymentLifecycle
-    hpa                       = var.hpa
-    priorityClassName         = var.priorityClassName
+    securityContext              = var.securityContext
+    strategy                     = var.strategy
+    podSecurityContext           = var.podSecurityContext
+    resources                    = var.resources
+    affinity                     = var.affinity
+    topologySpreadConstraints    = var.topologySpreadConstraints
+    nodeSelector                 = var.nodeSelector
+    tolerations                  = var.tolerations
+    envVars                      = var.envVars
+    extraEnv                     = var.extraEnv
+    extraEnvVars                 = var.extraEnvFrom
+    hostAliases                  = var.hostAliases
+    deploymentAnnotations        = var.deploymentAnnotations
+    deploymentLabels             = var.deploymentLabels
+    deploymentLifecycle          = var.deploymentLifecycle
+    hpa                          = var.hpa
+    priorityClassName            = var.priorityClassName
+    secrets                      = var.secrets
+    automountServiceAccountToken = var.automountServiceAccountToken
+    configMaps                   = var.configMaps
+    volumeMounts                 = var.volumeMounts
 
   }
 }
