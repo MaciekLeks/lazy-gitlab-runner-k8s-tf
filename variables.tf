@@ -662,8 +662,14 @@ variable "hpa" {
       }))
     }))
   })
-
   default = null
+}
+
+
+variable "priorityClassName" {
+  description = "Configure priorityClassName for the runner pod. If not set, globalDefault priority class is used."
+  type        = string
+  default     = ""
 }
 
 variable "runners" {

@@ -53,6 +53,7 @@ locals {
     deploymentLabels          = var.deploymentLabels
     deploymentLifecycle       = var.deploymentLifecycle
     hpa                       = var.hpa
+    priorityClassName         = var.priorityClassName
 
   }
 }
