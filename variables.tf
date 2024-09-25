@@ -772,6 +772,7 @@ variable "runners" {
     url      = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? The GitLab Server URL (with protocol) that want to register the runner against
 
     environment = optional(list(string), null)
+    cache_dir   = optional(string)
 
     kubernetes = object({
       namespace       = string
@@ -785,6 +786,9 @@ variable "runners" {
       helper_image                     = optional(string) //The default helper image used to clone repositories and upload artifacts.
       helper_image_flavor              = optional(string) //Sets the helper image flavor (alpine, alpine3.16, alpine3.17, alpine3.18, alpine3.19, alpine-latest, ubi-fips or ubuntu). Defaults to alpine. The alpine flavor uses the same version as alpine3.19.
       helper_image_autoset_arch_and_os = optional(string) //Uses the underlying OS to set the Helper Image ARCH and OS.
+
+      image_pull_secrets = optional(list(string), null)       // An array of items containing the Kubernetes docker-registry secret names used to authenticate Docker image pulling from private registries.
+      pull_policy        = optional(string, "if-not-present") //The Kubernetes pull policy for the runner container. Defaults to if-not-present.
 
 
 
@@ -843,7 +847,7 @@ variable "runners" {
 
     // start of cache block
     cache = optional(object({
-      Type                   = optional(string, "local")
+      Type                   = optional(string, "gcs")
       Path                   = optional(string, "")
       Shared                 = optional(bool)
       MaxUploadedArchiveSize = optional(number)
@@ -1019,9 +1023,9 @@ variable "runners" {
   }
   validation {
     condition = alltrue([
-      for r in var.runners : r.cache != null ? contains(["s3", "gcs", "azure", "local"], r.cache.Type) : true
+      for r in var.runners : r.cache != null ? contains(["s3", "gcs", "azure"], r.cache.Type) : true
     ])
-    error_message = "Cache type must be one of 's3', 'gcs', 'azure', or 'local'."
+    error_message = "Cache type must be one of 's3', 'gcs', or 'azure'."
   }
   // end of cache validation block
 
@@ -1041,6 +1045,13 @@ variable "runners" {
       for r in var.runners : contains(["bash", "sh", "powershell", "pwsh"], r.shell)
     ])
     error_message = "Must be one of: \"bash\", \"sh\", \"powershell\", \"pwsh\"."
+  }
+
+  validation {
+    condition = alltrue([
+      for r in var.runners : contains(["never", "if-not-present", "always"], r.kubernetes.pull_policy)
+    ])
+    error_message = "Must be of values: \"never\", \"if-not-present\", \"always\"."
   }
 }
 
