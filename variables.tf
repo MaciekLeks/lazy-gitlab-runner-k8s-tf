@@ -14,7 +14,6 @@ variable "helm_settings" {
   default = {}
 }
 
-
 variable "values_file" {
   description = "Path to Values file to be passed to gitlab-runner helm chart"
   default     = null
@@ -779,6 +778,9 @@ variable "runners" {
       pod_labels      = optional(map(string), null) // job's pods labels
       pod_annotations = optional(map(string), null) // job's annotations
 
+      poll_interval : optional(number, 3)  //How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status
+      poll_timeout : optional(number, 180) //The amount of time, in seconds, that needs to pass before the runner will time out attempting to connect to the container it has just created. 
+
       image                            = optional(string) //The image to run jobs with.
       helper_image                     = optional(string) //The default helper image used to clone repositories and upload artifacts.
       helper_image_flavor              = optional(string) //Sets the helper image flavor (alpine, alpine3.16, alpine3.17, alpine3.18, alpine3.19, alpine-latest, ubi-fips or ubuntu). Defaults to alpine. The alpine flavor uses the same version as alpine3.19.
@@ -827,6 +829,7 @@ variable "runners" {
       service_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
       service_ephemeral_storage_request : optional(string)
       service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
+
 
       volumes = optional(object({
         empty_dir = optional(list(object({
