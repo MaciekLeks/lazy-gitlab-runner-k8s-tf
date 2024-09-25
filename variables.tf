@@ -15,6 +15,19 @@ variable "helm_settings" {
 }
 
 
+variable "values_file" {
+  description = "Path to Values file to be passed to gitlab-runner helm chart"
+  default     = null
+  type        = string
+}
+
+variable "values" {
+  description = "Additional values to be passed to the gitlab-runner helm chart"
+  default     = {}
+  type        = map(any)
+}
+
+
 variable "image" {
   description = "The docker gitlab runner image."
   default     = {}
@@ -1028,3 +1041,8 @@ variable "runners" {
   }
 }
 
+variable "configPath" {
+  description = "Absolute path for an existing runner configuration file"
+  type        = string
+  default     = ""
+}

@@ -3,6 +3,8 @@ locals {
     runners = var.runners
   })
 
+  values_file = var.values_file != null ? file(var.values_file) : ""
+
   values = {
     image            = var.image
     useTiny          = var.useTiny
@@ -34,7 +36,8 @@ locals {
     scheulerName                  = var.schedulerName
 
     runners = {
-      config = local.runners_config
+      config     = local.runners_config
+      configPath = var.configPath
     }
 
     securityContext              = var.securityContext
@@ -76,7 +79,11 @@ resource "helm_release" "gitlab_runner" {
   wait             = var.helm_settings.wait
   timeout          = var.helm_settings.timeout
 
-  values = [yamlencode(local.values)]
+  values = [
+    yamlencode(local.values),
+    yamlencode(var.values),
+    local.values_file
+  ]
 }
 
 output "helm_release" {
