@@ -58,6 +58,8 @@ locals {
     automountServiceAccountToken = var.automountServiceAccountToken
     configMaps                   = var.configMaps
     volumeMounts                 = var.volumeMounts
+    volumes                      = var.volumes
+    extraObjects                 = var.extraObjects
 
   }
 }

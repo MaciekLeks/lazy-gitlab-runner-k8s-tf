@@ -711,6 +711,47 @@ variable "volumeMounts" {
   default = []
 }
 
+
+variable "volumes" {
+  description = "List of volumes to be attached to the pod"
+  type = list(object({
+    name      = string
+    type      = string
+    options   = map(string)
+    localPath = optional(string)
+    hostPath = optional(object({
+      path = string
+      type = optional(string)
+    }))
+    configMap = optional(object({
+      name = string
+      items = optional(list(object({
+        key  = string
+        path = string
+      })))
+    }))
+    secret = optional(object({
+      secretName = string
+      items = optional(list(object({
+        key  = string
+        path = string
+      })))
+    }))
+    emptyDir = optional(object({
+      medium    = optional(string)
+      sizeLimit = optional(string)
+    }))
+  }))
+  default = []
+}
+
+variable "extraObjects" {
+  description = "Additional k8s objects to be created."
+  type        = list(map(any))
+  default     = []
+}
+
+
 variable "runners" {
   type = list(object({
     name     = string
