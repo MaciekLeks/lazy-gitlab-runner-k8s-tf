@@ -52,6 +52,7 @@ locals {
     deploymentAnnotations     = var.deploymentAnnotations
     deploymentLabels          = var.deploymentLabels
     deploymentLifecycle       = var.deploymentLifecycle
+    hpa                       = var.hpa
 
   }
 }

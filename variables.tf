@@ -567,6 +567,105 @@ variable "deploymentLifecycle" {
   default     = {}
 }
 
+
+
+variable "hpa" {
+  description = "Horizontal Pod Autoscaling with API limited to metrics specification only (api/version: autoscaling/v2)."
+  type = object({
+    minReplicas = number
+    maxReplicas = number
+    behavior = object({
+      scale_up = object({
+        stabilizationWindowSeconds = number
+        selectPolicy               = string
+        policies = list(object({
+          type          = string
+          value         = number
+          periodSeconds = number
+        }))
+      })
+      scaleDown = object({
+        stabilizationWindowSeconds = number
+        selectPolicy               = string
+        policies = list(object({
+          type           = string
+          value          = number
+          period_seconds = number
+        }))
+      })
+    })
+    metrics = list(object({
+      type = string
+
+      resource = optional(object({
+        name = string
+        target = object({
+          type               = string
+          averageUtilization = optional(number)
+          averageValue       = optional(string)
+          value              = optional(string)
+        })
+      }))
+      pods = optional(object({
+        metric = object({
+          name = string
+          selector = optional(object({
+            matchLabels = optional(map(string))
+          }))
+        })
+        target = object({
+          type         = string
+          averageValue = optional(string)
+          value        = optional(string)
+        })
+      }))
+      object = optional(object({
+        metric = object({
+          name = string
+          selector = optional(object({
+            matchLabels = optional(map(string))
+          }))
+        })
+        describedObject = object({
+          apiVersion = string
+          kind       = string
+          name       = string
+        })
+        target = object({
+          type         = string
+          averageValue = optional(string)
+          value        = optional(string)
+        })
+      }))
+      external = optional(object({
+        metric = object({
+          name = string
+          selector = optional(object({
+            matchLabels = optional(map(string))
+          }))
+        })
+        target = optional(object({
+          type         = string
+          averageValue = optional(string)
+          value        = optional(string)
+        }))
+      }))
+      containerResource = optional(object({
+        name      = string
+        container = string
+        target = object({
+          type               = string
+          averageUtilization = optional(number)
+          averageValue       = optional(string)
+          value              = optional(string)
+        })
+      }))
+    }))
+  })
+
+  default = null
+}
+
 variable "runners" {
   type = list(object({
     name     = string
