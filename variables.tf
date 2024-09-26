@@ -842,6 +842,12 @@ variable "runners" {
           medium     = optional(string, null)
           size_limit = optional(string, null)
         })), null)
+        host_path = optional(list(object({
+          name       = string
+          mount_path = string
+          host_path  = string
+          read_only  = optional(bool, false)
+        })), null)
       }), null)
     })
 
