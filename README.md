@@ -53,7 +53,7 @@ I appreciate your interest in this project. If you'd like to contribute or stay 
 
 Contributions are welcome! Just write an issue and create a pull request.
 
-## Documentation
+## Terraform Documentation
 <!-- BEGIN_TF_DOCS -->
 
 <!-- END_TF_DOCS -->
