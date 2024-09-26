@@ -848,6 +848,30 @@ variable "runners" {
           host_path  = string
           read_only  = optional(bool, false)
         })), null)
+        pvc = optional(list(object({
+          name       = string
+          mount_path = string
+          read_only  = optional(bool, false)
+        })), null)
+        config_map = optional(list(object({
+          name       = string
+          mount_path = string
+          read_only  = optional(bool, false)
+          items      = optional(map(string), null)
+        })), null)
+        secret = optional(list(object({
+          name       = string
+          mount_path = string
+          read_only  = optional(bool, false)
+          items      = optional(map(string), null)
+        })), null)
+        csi = optional(list(object({
+          name              = string
+          mount_path        = string
+          read_only         = optional(bool, false)
+          driver            = string
+          volume_attributes = optional(map(string), null)
+        })), null)
       }), null)
     })
 
