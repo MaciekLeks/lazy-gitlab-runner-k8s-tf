@@ -842,6 +842,9 @@ variable "runners" {
         selinux_options : optional(string)
       }), null)
 
+      node_selector    = optional(map(string), null) //Job PODs node selector
+      node_tolerations = optional(map(string), null) //Job PODs node tolerations
+
       volumes = optional(object({
         empty_dir = optional(list(object({
           name       = string
