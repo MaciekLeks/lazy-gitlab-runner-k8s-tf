@@ -53,10 +53,14 @@ I appreciate your interest in this project. If you'd like to contribute or stay 
 
 Contributions are welcome! Just write an issue and create a pull request.
 
+## Documentation
+<!-- BEGIN_TF_DOCS -->
+
+<!-- END_TF_DOCS -->
+
 ## License
 
 This project is free to use and distribute under the MIT License. See [LICENSE](https://mit-license.org) for more information.
 
-## API Documentation
 
 
