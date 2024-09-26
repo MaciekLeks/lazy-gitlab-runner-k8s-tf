@@ -774,10 +774,19 @@ variable "runners" {
     environment = optional(list(string), null)
     cache_dir   = optional(string)
 
+    unhealthy_reqest_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
+    unhealthy_interval     = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
+    output_limit           = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
+
+    service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
+    service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
+
+
     kubernetes = object({
-      namespace       = string
-      pod_labels      = optional(map(string), null) // job's pods labels
-      pod_annotations = optional(map(string), null) // job's annotations
+      namespace                    = string
+      pod_labels                   = optional(map(string), null) // job's pods labels
+      pod_labels_overwrite_allowed = optional(string, null)      //Regular expression to validate the contents of the pod labels overwrite environment variable. When empty, it disables the pod labels overwrite feature.
+      pod_annotations              = optional(map(string), null) // job's annotations
 
       poll_interval : optional(number, 3)  //How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status
       poll_timeout : optional(number, 180) //The amount of time, in seconds, that needs to pass before the runner will time out attempting to connect to the container it has just created. 

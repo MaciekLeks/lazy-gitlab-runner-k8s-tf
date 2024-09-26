@@ -36,9 +36,9 @@ I'm  working diligently to create a stable and feature-complete version of this 
 
 ### Development Status
 
-- [ ] Core functionality implementation
+- [x] Core functionality implementation
 - [ ] Testing and validation
-- [ ] Documentation
+- [x] Documentation
 - [ ] Example configurations
 - [ ] First stable release
 
@@ -56,3 +56,7 @@ Contributions are welcome! Just write an issue and create a pull request.
 ## License
 
 This project is free to use and distribute under the MIT License. See [LICENSE](https://mit-license.org) for more information.
+
+## API Documentation
+
+
