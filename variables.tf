@@ -834,6 +834,14 @@ variable "runners" {
       service_ephemeral_storage_request : optional(string)
       service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
+      pod_security_context = optional(object({
+        fs_group : optional(number)
+        run_as_group : optional(number)
+        run_as_non_root : optional(bool)
+        run_as_user : optional(number)
+        supplemental_groups : optional(list(number))
+        selinux_options : optional(string)
+      }), null)
 
       volumes = optional(object({
         empty_dir = optional(list(object({
