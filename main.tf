@@ -54,6 +54,8 @@ locals {
     hostAliases                  = var.hostAliases
     deploymentAnnotations        = var.deploymentAnnotations
     deploymentLabels             = var.deploymentLabels
+    podAnnotations               = var.podAnnotations
+    podLabels                    = var.podLabels
     deploymentLifecycle          = var.deploymentLifecycle
     hpa                          = var.hpa
     priorityClassName            = var.priorityClassName

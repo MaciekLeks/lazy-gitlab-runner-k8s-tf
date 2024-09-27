@@ -579,6 +579,19 @@ variable "deploymentLifecycle" {
   default     = {}
 }
 
+variable "podAnnotations" {
+  description = "Annotations to be added to the runner pods."
+  type        = map(string)
+  default     = {}
+}
+
+variable "podLabels" {
+  description = "Labels to be added to the runner pods."
+  type        = map(string)
+  default     = {}
+}
+
+
 
 
 variable "hpa" {
@@ -798,7 +811,7 @@ variable "runners" {
 
       image_pull_secrets = optional(list(string), null)       // An array of items containing the Kubernetes docker-registry secret names used to authenticate Docker image pulling from private registries.
       pull_policy        = optional(string, "if-not-present") //The Kubernetes pull policy for the runner container. Defaults to if-not-present.
-      privileged         = optional(bool, false)              //Whether to run job's PODs containers in privileged mode. Defaults to false.
+      privileged         = optional(bool, false)              //Whether to run job's pods containers in privileged mode. Defaults to false.
 
       // cpu requests and limits
       cpu_limit : optional(string)
