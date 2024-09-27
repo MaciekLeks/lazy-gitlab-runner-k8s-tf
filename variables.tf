@@ -787,9 +787,9 @@ variable "runners" {
     environment = optional(list(string), null)
     cache_dir   = optional(string)
 
-    unhealthy_reqest_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
-    unhealthy_interval     = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
-    output_limit           = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
+    unhealthy_request_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
+    unhealthy_interval      = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
+    output_limit            = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
 
     service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
     service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
@@ -811,7 +811,7 @@ variable "runners" {
 
       image_pull_secrets = optional(list(string), null)       // An array of items containing the Kubernetes docker-registry secret names used to authenticate Docker image pulling from private registries.
       pull_policy        = optional(string, "if-not-present") //The Kubernetes pull policy for the runner container. Defaults to if-not-present.
-      privileged         = optional(bool, false)              //Whether to run job's pods containers in privileged mode. Defaults to false.
+      privileged         = optional(bool, false)              //Whether to run job's podss containers in privileged mode. Defaults to false.
 
       // cpu requests and limits
       cpu_limit : optional(string)
