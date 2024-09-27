@@ -4,7 +4,7 @@
 .terraform.lock.hcl
 
 # local tfvars file
-testing.tfvars
+test.*
 
 # Ignore log files and crash logs
 *.log

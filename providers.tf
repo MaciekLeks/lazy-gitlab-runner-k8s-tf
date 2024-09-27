@@ -17,18 +17,4 @@ terraform {
   required_version = ">= 1.8.0"
 }
 
-provider "toml" {
-}
-
-//TODO - remove this block
-//test block
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
-
-//
-
 
