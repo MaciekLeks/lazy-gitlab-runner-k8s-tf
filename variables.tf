@@ -528,7 +528,7 @@ variable "nodeSelector" {
 
 variable "envVars" {
   description = "Configure environment variables that will be present when the registration command runs."
-  type = map(object({
+  type = list(object({
     name : string
     value : string
   }))

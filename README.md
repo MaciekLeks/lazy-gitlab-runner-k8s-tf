@@ -95,7 +95,7 @@ No modules.
 | <a name="input_deploymentAnnotations"></a> [deploymentAnnotations](#input\_deploymentAnnotations) | Annotations to be added to the runner deployment. | `map(string)` | `{}` | no |
 | <a name="input_deploymentLabels"></a> [deploymentLabels](#input\_deploymentLabels) | Labels to be added to the runner deployment. | `map(string)` | `{}` | no |
 | <a name="input_deploymentLifecycle"></a> [deploymentLifecycle](#input\_deploymentLifecycle) | Configure the lifecycle of the runner deployment. | `map(any)` | `{}` | no |
-| <a name="input_envVars"></a> [envVars](#input\_envVars) | Configure environment variables that will be present when the registration command runs. | <pre>map(object({<br/>    name : string<br/>    value : string<br/>  }))</pre> | `null` | no |
+| <a name="input_envVars"></a> [envVars](#input\_envVars) | Configure environment variables that will be present when the registration command runs. | <pre>list(object({<br/>    name : string<br/>    value : string<br/>  }))</pre> | `null` | no |
 | <a name="input_extraEnv"></a> [extraEnv](#input\_extraEnv) | Extra environment variables to be added to the runner pods. | `map(string)` | `{}` | no |
 | <a name="input_extraEnvFrom"></a> [extraEnvFrom](#input\_extraEnvFrom) | Additional environment variables from other data sources (k8s secrets). | <pre>map(object({<br/>    secretKeyRef : object({<br/>      name : string<br/>      key : string<br/>    })<br/>  }))</pre> | `{}` | no |
 | <a name="input_extraObjects"></a> [extraObjects](#input\_extraObjects) | Additional k8s objects to be created. | `list(map(any))` | `[]` | no |
