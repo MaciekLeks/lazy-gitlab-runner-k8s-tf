@@ -795,9 +795,6 @@ variable "runners" {
       unhealthy_interval       = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
       output_limit             = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
 
-      service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
-      service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
-
 
       kubernetes = object({
         namespace                    = string
@@ -909,6 +906,9 @@ variable "runners" {
             volume_attributes = optional(map(string), null)
           })), null)
         }), null)
+
+        service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
+        service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
 
         affinity = optional(object({
           node_affinity : optional(object({
