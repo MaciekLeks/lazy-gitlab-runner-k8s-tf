@@ -63,21 +63,21 @@ variable "imagePullSecrets" {
 
 variable "livenessProbe" {
   type = object({
-    initial_delay_seconds            = optional(number, 60)
-    period_seconds                   = optional(number, 10)
-    success_threshold                = optional(number, 1)
-    failure_threshold                = optional(number, 3)
-    termination_grace_period_seconds = optional(number, 30)
+    initialDelaySeconds           = optional(number, 60)
+    periodSeconds                 = optional(number, 10)
+    successThreshold              = optional(number, 1)
+    failureThreshold              = optional(number, 3)
+    terminationGracePeriodSeconds = optional(number, 30)
   })
   default = {}
 }
 
 variable "readinessProbe" {
   type = object({
-    initial_delay_seconds = optional(number, 60)
-    period_seconds        = optional(number, 10)
-    success_threshold     = optional(number, 1)
-    failure_threshold     = optional(number, 3)
+    initialDelaySeconds = optional(number, 60)
+    periodSeconds       = optional(number, 10)
+    successThreshold    = optional(number, 1)
+    failureThreshold    = optional(number, 3)
   })
   default = {}
 }
