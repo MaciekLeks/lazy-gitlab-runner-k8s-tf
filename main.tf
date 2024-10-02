@@ -1,7 +1,13 @@
 locals {
-  runners_config = provider::toml::encode({
-    runners = var.runners
-  })
+  runners = {
+    name       = var.runners.name
+    configPath = var.runners.configPath
+    secret     = var.runners.secret
+    cache      = var.runners.cache
+    config = provider::toml::encode({
+      runners = var.runners.config
+    })
+  }
 
   values_file = var.values_file != null ? file(var.values_file) : ""
 
@@ -35,10 +41,7 @@ locals {
     service                       = var.service
     scheulerName                  = var.schedulerName
 
-    runners = {
-      config     = local.runners_config
-      configPath = var.configPath
-    }
+    runners = local.runners
 
     securityContext              = var.securityContext
     strategy                     = var.strategy
@@ -97,7 +100,7 @@ output "helm_values" {
   value = local.values
 }
 
-output "runners_config" {
-  value = local.runners_config
+output "runners" {
+  value = local.runners
 }
 

@@ -778,171 +778,196 @@ variable "extraObjects" {
 
 
 variable "runners" {
-  type = list(object({
-    name     = string
-    executor = optional(string, "kubernetes")
-    shell    = optional(string, "bash")
-    url      = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? The GitLab Server URL (with protocol) that want to register the runner against
+  type = object({
+    name       = string
+    configPath = optional(string, "")      // "Absolute path for an existing runner configuration file"
+    secret     = optional(string, null)    // "Secret name containing the runner registration token"
+    cache      = optional(map(string), {}) //Distributed cache secret
+    config = list(object({
+      executor = optional(string, "kubernetes")
+      shell    = optional(string, "bash")
+      url      = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? The GitLab Server URL (with protocol) that want to register the runner against
 
-    environment = optional(list(string), null)
-    cache_dir   = optional(string)
+      environment = optional(list(string), null)
+      cache_dir   = optional(string)
 
-    unhealthy_requests_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
-    unhealthy_interval       = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
-    output_limit             = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
+      unhealthy_requests_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
+      unhealthy_interval       = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
+      output_limit             = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
 
-    service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
-    service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
+      service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
+      service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
 
 
-    kubernetes = object({
-      namespace                    = string
-      pod_labels                   = optional(map(string), null) // job's pods labels
-      pod_labels_overwrite_allowed = optional(string, null)      //Regular expression to validate the contents of the pod labels overwrite environment variable. When empty, it disables the pod labels overwrite feature.
-      pod_annotations              = optional(map(string), null) // job's annotations
+      kubernetes = object({
+        namespace                    = string
+        pod_labels                   = optional(map(string), null) // job's pods labels
+        pod_labels_overwrite_allowed = optional(string, null)      //Regular expression to validate the contents of the pod labels overwrite environment variable. When empty, it disables the pod labels overwrite feature.
+        pod_annotations              = optional(map(string), null) // job's annotations
 
-      poll_interval : optional(number, 3)  //How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status
-      poll_timeout : optional(number, 180) //The amount of time, in seconds, that needs to pass before the runner will time out attempting to connect to the container it has just created. 
+        poll_interval : optional(number, 3)  //How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status
+        poll_timeout : optional(number, 180) //The amount of time, in seconds, that needs to pass before the runner will time out attempting to connect to the container it has just created. 
 
-      image                            = optional(string) //The image to run jobs with.
-      helper_image                     = optional(string) //The default helper image used to clone repositories and upload artifacts.
-      helper_image_flavor              = optional(string) //Sets the helper image flavor (alpine, alpine3.16, alpine3.17, alpine3.18, alpine3.19, alpine-latest, ubi-fips or ubuntu). Defaults to alpine. The alpine flavor uses the same version as alpine3.19.
-      helper_image_autoset_arch_and_os = optional(string) //Uses the underlying OS to set the Helper Image ARCH and OS.
+        image                            = optional(string) //The image to run jobs with.
+        helper_image                     = optional(string) //The default helper image used to clone repositories and upload artifacts.
+        helper_image_flavor              = optional(string) //Sets the helper image flavor (alpine, alpine3.16, alpine3.17, alpine3.18, alpine3.19, alpine-latest, ubi-fips or ubuntu). Defaults to alpine. The alpine flavor uses the same version as alpine3.19.
+        helper_image_autoset_arch_and_os = optional(string) //Uses the underlying OS to set the Helper Image ARCH and OS.
 
-      image_pull_secrets = optional(list(string), null)       // An array of items containing the Kubernetes docker-registry secret names used to authenticate Docker image pulling from private registries.
-      pull_policy        = optional(string, "if-not-present") //The Kubernetes pull policy for the runner container. Defaults to if-not-present.
-      privileged         = optional(bool, false)              //Whether to run job's podss containers in privileged mode. Defaults to false.
+        image_pull_secrets = optional(list(string), null)       // An array of items containing the Kubernetes docker-registry secret names used to authenticate Docker image pulling from private registries.
+        pull_policy        = optional(string, "if-not-present") //The Kubernetes pull policy for the runner container. Defaults to if-not-present.
+        privileged         = optional(bool, false)              //Whether to run job's podss containers in privileged mode. Defaults to false.
 
-      // cpu requests and limits
-      cpu_limit : optional(string)
-      cpu_limit_overwrite_max_allowed : optional(string)
-      cpu_request : optional(string)
-      cpu_request_overwrite_max_allowed : optional(string)
-      memory_limit : optional(string)
-      memory_limit_overwrite_max_allowed : optional(string)
-      memory_request : optional(string)
-      memory_request_overwrite_max_allowed : optional(string)
-      ephemeral_storage_limit : optional(string)
-      ephemeral_storage_limit_overwrite_max_allowed : optional(string)
-      ephemeral_storage_request : optional(string)
-      ephemeral_storage_request_overwrite_max_allowed : optional(string)
+        // cpu requests and limits
+        cpu_limit : optional(string)
+        cpu_limit_overwrite_max_allowed : optional(string)
+        cpu_request : optional(string)
+        cpu_request_overwrite_max_allowed : optional(string)
+        memory_limit : optional(string)
+        memory_limit_overwrite_max_allowed : optional(string)
+        memory_request : optional(string)
+        memory_request_overwrite_max_allowed : optional(string)
+        ephemeral_storage_limit : optional(string)
+        ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+        ephemeral_storage_request : optional(string)
+        ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
-      //helper containers
-      helper_cpu_limit : optional(string)
-      helper_cpu_limit_overwrite_max_allowed : optional(string)
-      helper_cpu_request : optional(string)
-      helper_cpu_request_overwrite_max_allowed : optional(string)
-      helper_memory_limit : optional(string)
-      helper_memory_limit_overwrite_max_allowed : optional(string)
-      helper_memory_request : optional(string)
-      helper_memory_request_overwrite_max_allowed : optional(string)
-      helper_ephemeral_storage_limit : optional(string)
-      helper_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
-      helper_ephemeral_storage_request : optional(string)
-      helper_ephemeral_storage_request_overwrite_max_allowed : optional(string)
+        //helper containers
+        helper_cpu_limit : optional(string)
+        helper_cpu_limit_overwrite_max_allowed : optional(string)
+        helper_cpu_request : optional(string)
+        helper_cpu_request_overwrite_max_allowed : optional(string)
+        helper_memory_limit : optional(string)
+        helper_memory_limit_overwrite_max_allowed : optional(string)
+        helper_memory_request : optional(string)
+        helper_memory_request_overwrite_max_allowed : optional(string)
+        helper_ephemeral_storage_limit : optional(string)
+        helper_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+        helper_ephemeral_storage_request : optional(string)
+        helper_ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
-      // service containers
-      service_cpu_limit : optional(string)
-      service_cpu_limit_overwrite_max_allowed : optional(string)
-      service_cpu_request : optional(string)
-      service_cpu_request_overwrite_max_allowed : optional(string)
-      service_memory_limit : optional(string)
-      service_memory_limit_overwrite_max_allowed : optional(string)
-      service_memory_request : optional(string)
-      service_memory_request_overwrite_max_allowed : optional(string)
-      service_ephemeral_storage_limit : optional(string)
-      service_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
-      service_ephemeral_storage_request : optional(string)
-      service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
+        // service containers
+        service_cpu_limit : optional(string)
+        service_cpu_limit_overwrite_max_allowed : optional(string)
+        service_cpu_request : optional(string)
+        service_cpu_request_overwrite_max_allowed : optional(string)
+        service_memory_limit : optional(string)
+        service_memory_limit_overwrite_max_allowed : optional(string)
+        service_memory_request : optional(string)
+        service_memory_request_overwrite_max_allowed : optional(string)
+        service_ephemeral_storage_limit : optional(string)
+        service_ephemeral_storage_limit_overwrite_max_allowed : optional(string)
+        service_ephemeral_storage_request : optional(string)
+        service_ephemeral_storage_request_overwrite_max_allowed : optional(string)
 
-      pod_security_context = optional(object({
-        fs_group : optional(number)
-        run_as_group : optional(number)
-        run_as_non_root : optional(bool)
-        run_as_user : optional(number)
-        supplemental_groups : optional(list(number))
-        selinux_options : optional(string)
-      }), null)
+        pod_security_context = optional(object({
+          fs_group : optional(number)
+          run_as_group : optional(number)
+          run_as_non_root : optional(bool)
+          run_as_user : optional(number)
+          supplemental_groups : optional(list(number))
+          selinux_options : optional(string)
+        }), null)
 
-      node_selector    = optional(map(string), null) //Job PODs node selector
-      node_tolerations = optional(map(string), null) //Job PODs node tolerations
+        node_selector    = optional(map(string), null) //Job PODs node selector
+        node_tolerations = optional(map(string), null) //Job PODs node tolerations
 
-      volumes = optional(object({
-        empty_dir = optional(list(object({
-          name       = string
-          mount_path = string
-          medium     = optional(string, null)
-          size_limit = optional(string, null)
-        })), null)
-        host_path = optional(list(object({
-          name       = string
-          mount_path = string
-          host_path  = string
-          read_only  = optional(bool, false)
-        })), null)
-        pvc = optional(list(object({
-          name       = string
-          mount_path = string
-          read_only  = optional(bool, false)
-        })), null)
-        config_map = optional(list(object({
-          name       = string
-          mount_path = string
-          read_only  = optional(bool, false)
-          items      = optional(map(string), null)
-        })), null)
-        secret = optional(list(object({
-          name       = string
-          mount_path = string
-          read_only  = optional(bool, false)
-          items      = optional(map(string), null)
-        })), null)
-        csi = optional(list(object({
-          name              = string
-          mount_path        = string
-          read_only         = optional(bool, false)
-          driver            = string
-          volume_attributes = optional(map(string), null)
-        })), null)
-      }), null)
-
-      affinity = optional(object({
-        node_affinity : optional(object({
-          preferred_during_scheduling_ignored_during_execution : optional(list(object({
-            weight : number
-            preference : object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_fields : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-            })
+        volumes = optional(object({
+          empty_dir = optional(list(object({
+            name       = string
+            mount_path = string
+            medium     = optional(string, null)
+            size_limit = optional(string, null)
           })), null)
-          required_during_scheduling_ignored_during_execution : optional(list(object({
-            node_selector_terms : object({
-              match_expressions : optional(object({
-                key : string
-                operator : string
-                values : list(string)
-              }))
-              match_fields : optional(object({
-                key : string
-                operator : string
-                values : list(string)
-              }))
-            })
+          host_path = optional(list(object({
+            name       = string
+            mount_path = string
+            host_path  = string
+            read_only  = optional(bool, false)
+          })), null)
+          pvc = optional(list(object({
+            name       = string
+            mount_path = string
+            read_only  = optional(bool, false)
+          })), null)
+          config_map = optional(list(object({
+            name       = string
+            mount_path = string
+            read_only  = optional(bool, false)
+            items      = optional(map(string), null)
+          })), null)
+          secret = optional(list(object({
+            name       = string
+            mount_path = string
+            read_only  = optional(bool, false)
+            items      = optional(map(string), null)
+          })), null)
+          csi = optional(list(object({
+            name              = string
+            mount_path        = string
+            read_only         = optional(bool, false)
+            driver            = string
+            volume_attributes = optional(map(string), null)
           })), null)
         }), null)
 
-        pod_affinity : optional(object({
-          preferred_during_scheduling_ignored_during_execution : optional(list(object({
-            pod_affinity_term : object({
+        affinity = optional(object({
+          node_affinity : optional(object({
+            preferred_during_scheduling_ignored_during_execution : optional(list(object({
               weight : number
+              preference : object({
+                match_expressions : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+                match_fields : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+              })
+            })), null)
+            required_during_scheduling_ignored_during_execution : optional(list(object({
+              node_selector_terms : object({
+                match_expressions : optional(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                }))
+                match_fields : optional(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                }))
+              })
+            })), null)
+          }), null)
+
+          pod_affinity : optional(object({
+            preferred_during_scheduling_ignored_during_execution : optional(list(object({
+              pod_affinity_term : object({
+                weight : number
+                topology_key : string
+                namespaces : optional(list(string))
+                label_selector : optional(object({
+                  match_expressions : optional(list(object({
+                    key : string
+                    operator : string
+                    values : list(string)
+                  })))
+                  match_labels : optional(list(string))
+                }))
+                namespace_selector : optional(object({
+                  match_expressions : optional(list(object({
+                    key : string
+                    operator : string
+                    values : list(string)
+                  })))
+                  match_labels : optional(list(string))
+                }))
+              })
+            })), null)
+            required_during_scheduling_ignored_during_execution : optional(list(object({
               topology_key : string
               namespaces : optional(list(string))
               label_selector : optional(object({
@@ -961,34 +986,34 @@ variable "runners" {
                 })))
                 match_labels : optional(list(string))
               }))
-            })
-          })), null)
-          required_during_scheduling_ignored_during_execution : optional(list(object({
-            topology_key : string
-            namespaces : optional(list(string))
-            label_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-            namespace_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-          })), null)
-        }), null)
+            })), null)
+          }), null)
 
-        pod_anti_affinity : optional(object({
-          preferred_during_scheduling_ignored_during_execution : optional(list(object({
-            pod_affinity_term : object({
-              weight : number
+          pod_anti_affinity : optional(object({
+            preferred_during_scheduling_ignored_during_execution : optional(list(object({
+              pod_affinity_term : object({
+                weight : number
+                topology_key : string
+                namespaces : optional(list(string))
+                label_selector : optional(object({
+                  match_expressions : optional(list(object({
+                    key : string
+                    operator : string
+                    values : list(string)
+                  })))
+                  match_labels : optional(list(string))
+                }))
+                namespace_selector : optional(object({
+                  match_expressions : optional(list(object({
+                    key : string
+                    operator : string
+                    values : list(string)
+                  })))
+                  match_labels : optional(list(string))
+                }))
+              })
+            })), null)
+            required_during_scheduling_ignored_during_execution : optional(list(object({
               topology_key : string
               namespaces : optional(list(string))
               label_selector : optional(object({
@@ -1007,57 +1032,41 @@ variable "runners" {
                 })))
                 match_labels : optional(list(string))
               }))
-            })
-          })), null)
-          required_during_scheduling_ignored_during_execution : optional(list(object({
-            topology_key : string
-            namespaces : optional(list(string))
-            label_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-            namespace_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-          })), null)
+            })), null)
+          }), null)
+        }), null) //affinity
+      })          //kubernetes
+
+      // start of cache block
+      cache = optional(object({
+        Type                   = optional(string, "gcs")
+        Path                   = optional(string, "")
+        Shared                 = optional(bool)
+        MaxUploadedArchiveSize = optional(number)
+        gcs = optional(object({
+          CredentialsFile : optional(string)
+          AccessId : optional(string)
+          PrivateKey : optional(string)
+          BucketName : string
         }), null)
-      }), null) //affinity
-    })          //kubernetes
-
-    // start of cache block
-    cache = optional(object({
-      Type                   = optional(string, "gcs")
-      Path                   = optional(string, "")
-      Shared                 = optional(bool)
-      MaxUploadedArchiveSize = optional(number)
-      gcs = optional(object({
-        CredentialsFile : optional(string)
-        AccessId : optional(string)
-        PrivateKey : optional(string)
-        BucketName : string
+        s3          = optional(map(any), null) //TODO: add static typing as for gcs
+        azure       = optional(map(any), null) //TODO: add static typing as for gcs
+        secret_name = optional(string)
       }), null)
-      s3          = optional(map(any), null) //TODO: add static typing as for gcs
-      azure       = optional(map(any), null) //TODO: add static typing as for gcs
-      secret_name = optional(string)
-    }), null)
-    // end of cache block
+      // end of cache block
+  })) }) //runners 
 
-
-  })) //runners 
+  //start runners.cache validation block
+  validation {
+    condition     = length(var.runners.cache) == 0 ? true : contains(keys(var.runners.cache), "secretName")
+    error_message = "To use the var.runers.cache map type you must set its secretName."
+  }
+  //end runners.cache validation block
 
   //start executor validation block
   validation {
     condition = alltrue([
-      for r in var.runners : contains(["kubernetes"], r.executor)
+      for r in var.runners.config : contains(["kubernetes"], r.executor)
     ])
     error_message = "Must be: \"kubernetes\"."
   }
@@ -1066,60 +1075,55 @@ variable "runners" {
   // start of cache validation block
   validation {
     condition = alltrue([
-      for r in var.runners : r.cache != null ? r.cache.Type == "gcs" ? r.cache.gcs.BucketName != null : true : true
+      for r in var.runners.config : r.cache != null ? r.cache.Type == "gcs" ? r.cache.gcs.BucketName != null : true : true
     ])
     error_message = "To use the gcs cache type you must configure at least gcs.BucketName"
   }
   validation {
     condition = alltrue([
-      for r in var.runners : r.cache != null ? r.cache.Type == "azure" ? length(r.cache.azure) > 0 : true : true
+      for r in var.runners.config : r.cache != null ? r.cache.Type == "azure" ? length(r.cache.azure) > 0 : true : true
     ])
     //TODO: after adding static typing change it accordingly
     error_message = "To use the azure cache type you must set var.cache.azure. see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
   validation {
     condition = alltrue([
-      for r in var.runners : r.cache != null ? r.cache.Type == "s3" ? length(r.cache.azure) > 0 : true : true
+      for r in var.runners.config : r.cache != null ? r.cache.Type == "s3" ? length(r.cache.azure) > 0 : true : true
     ])
     //TODO: after adding static typing change it accordingly
     error_message = "To use the s3 cache type you must set var.cache.s3 see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section for config details."
   }
   validation {
     condition = alltrue([
-      for r in var.runners : r.cache != null ? contains(["s3", "gcs", "azure"], r.cache.Type) : true
+      for r in var.runners.config : r.cache != null ? contains(["s3", "gcs", "azure"], r.cache.Type) : true
     ])
     error_message = "Cache type must be one of 's3', 'gcs', or 'azure'."
   }
   // end of cache validation block
 
   validation {
-    condition     = length(var.runners) > 0
+    condition     = length(var.runners.config) > 0
     error_message = "At least one runner must be defined"
   }
   validation {
     condition = alltrue([
-      for r in var.runners : contains(["kubernetes"], r.executor)
+      for r in var.runners.config : contains(["kubernetes"], r.executor)
     ])
     error_message = "Must be one of: \"bash\", \"sh\", \"powershell\", \"pwsh\"."
 
   }
   validation {
     condition = alltrue([
-      for r in var.runners : contains(["bash", "sh", "powershell", "pwsh"], r.shell)
+      for r in var.runners.config : contains(["bash", "sh", "powershell", "pwsh"], r.shell)
     ])
     error_message = "Must be one of: \"bash\", \"sh\", \"powershell\", \"pwsh\"."
   }
 
   validation {
     condition = alltrue([
-      for r in var.runners : contains(["never", "if-not-present", "always"], r.kubernetes.pull_policy)
+      for r in var.runners.config : contains(["never", "if-not-present", "always"], r.kubernetes.pull_policy)
     ])
     error_message = "Must be of values: \"never\", \"if-not-present\", \"always\"."
   }
-}
+} //runners
 
-variable "configPath" {
-  description = "Absolute path for an existing runner configuration file"
-  type        = string
-  default     = ""
-}
