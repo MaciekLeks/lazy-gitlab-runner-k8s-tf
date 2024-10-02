@@ -787,9 +787,9 @@ variable "runners" {
     environment = optional(list(string), null)
     cache_dir   = optional(string)
 
-    unhealthy_request_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
-    unhealthy_interval      = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
-    output_limit            = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
+    unhealthy_requests_limit = optional(number, 30)     //The number of unhealthy responses to new job requests after which a runner worker will be disabled.
+    unhealthy_interval       = optional(string, "120s") //Duration that a runner worker is disabled for after it exceeds the unhealthy requests limit. 
+    output_limit             = optional(number, 4096)   //Maximum build log size in kilobytes. Default is 4096 (4MB).
 
     service_account                   = optional(string, null) //Default service account job/executor pods use to talk to Kubernetes API. If not set, the default service account is used.
     service_account_overwrite_allowed = optional(string, null) //Regular expression to validate the contents of the service account overwrite environment variable. When empty, it disables the service account overwrite feature.
@@ -905,7 +905,133 @@ variable "runners" {
           volume_attributes = optional(map(string), null)
         })), null)
       }), null)
-    })
+
+      affinity = optional(object({
+        node_affinity : optional(object({
+          preferred_during_scheduling_ignored_during_execution : optional(list(object({
+            weight : number
+            preference : object({
+              match_expressions : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+              match_fields : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+            })
+          })), null)
+          required_during_scheduling_ignored_during_execution : optional(list(object({
+            node_selector_terms : object({
+              match_expressions : optional(object({
+                key : string
+                operator : string
+                values : list(string)
+              }))
+              match_fields : optional(object({
+                key : string
+                operator : string
+                values : list(string)
+              }))
+            })
+          })), null)
+        }), null)
+
+        pod_affinity : optional(object({
+          preferred_during_scheduling_ignored_during_execution : optional(list(object({
+            pod_affinity_term : object({
+              weight : number
+              topology_key : string
+              namespaces : optional(list(string))
+              label_selector : optional(object({
+                match_expressions : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+                match_labels : optional(list(string))
+              }))
+              namespace_selector : optional(object({
+                match_expressions : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+                match_labels : optional(list(string))
+              }))
+            })
+          })), null)
+          required_during_scheduling_ignored_during_execution : optional(list(object({
+            topology_key : string
+            namespaces : optional(list(string))
+            label_selector : optional(object({
+              match_expressions : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+              match_labels : optional(list(string))
+            }))
+            namespace_selector : optional(object({
+              match_expressions : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+              match_labels : optional(list(string))
+            }))
+          })), null)
+        }), null)
+
+        pod_anti_affinity : optional(object({
+          preferred_during_scheduling_ignored_during_execution : optional(list(object({
+            pod_affinity_term : object({
+              weight : number
+              topology_key : string
+              namespaces : optional(list(string))
+              label_selector : optional(object({
+                match_expressions : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+                match_labels : optional(list(string))
+              }))
+              namespace_selector : optional(object({
+                match_expressions : optional(list(object({
+                  key : string
+                  operator : string
+                  values : list(string)
+                })))
+                match_labels : optional(list(string))
+              }))
+            })
+          })), null)
+          required_during_scheduling_ignored_during_execution : optional(list(object({
+            topology_key : string
+            namespaces : optional(list(string))
+            label_selector : optional(object({
+              match_expressions : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+              match_labels : optional(list(string))
+            }))
+            namespace_selector : optional(object({
+              match_expressions : optional(list(object({
+                key : string
+                operator : string
+                values : list(string)
+              })))
+              match_labels : optional(list(string))
+            }))
+          })), null)
+        }), null)
+      }), null) //affinity
+    })          //kubernetes
 
     // start of cache block
     cache = optional(object({
@@ -925,131 +1051,6 @@ variable "runners" {
     }), null)
     // end of cache block
 
-    affinity = optional(object({
-      node_affinity : optional(object({
-        preferred_during_scheduling_ignored_during_execution : optional(list(object({
-          weight : number
-          preference : object({
-            match_expressions : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-            match_fields : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-          })
-        })), null)
-        required_during_scheduling_ignored_during_execution : optional(list(object({
-          node_selector_terms : object({
-            match_expressions : optional(object({
-              key : string
-              operator : string
-              values : list(string)
-            }))
-            match_fields : optional(object({
-              key : string
-              operator : string
-              values : list(string)
-            }))
-          })
-        })), null)
-      }), null)
-
-      pod_affinity : optional(object({
-        preferred_during_scheduling_ignored_during_execution : optional(list(object({
-          pod_affinity_term : object({
-            weight : number
-            topology_key : string
-            namespaces : optional(list(string))
-            label_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-            namespace_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-          })
-        })), null)
-        required_during_scheduling_ignored_during_execution : optional(list(object({
-          topology_key : string
-          namespaces : optional(list(string))
-          label_selector : optional(object({
-            match_expressions : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-            match_labels : optional(list(string))
-          }))
-          namespace_selector : optional(object({
-            match_expressions : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-            match_labels : optional(list(string))
-          }))
-        })), null)
-      }), null)
-
-      pod_anti_affinity : optional(object({
-        preferred_during_scheduling_ignored_during_execution : optional(list(object({
-          pod_affinity_term : object({
-            weight : number
-            topology_key : string
-            namespaces : optional(list(string))
-            label_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-            namespace_selector : optional(object({
-              match_expressions : optional(list(object({
-                key : string
-                operator : string
-                values : list(string)
-              })))
-              match_labels : optional(list(string))
-            }))
-          })
-        })), null)
-        required_during_scheduling_ignored_during_execution : optional(list(object({
-          topology_key : string
-          namespaces : optional(list(string))
-          label_selector : optional(object({
-            match_expressions : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-            match_labels : optional(list(string))
-          }))
-          namespace_selector : optional(object({
-            match_expressions : optional(list(object({
-              key : string
-              operator : string
-              values : list(string)
-            })))
-            match_labels : optional(list(string))
-          }))
-        })), null)
-      }), null)
-    }), null) //affinity
 
   })) //runners 
 
