@@ -23,7 +23,7 @@ locals {
 
     gitlabUrl                     = var.gitlabUrl
     runnerToken                   = var.runnerToken
-    uregisterRunners              = var.unregisterRunners
+    unregisterRunners             = var.unregisterRunners
     terminationGracePeriodSeconds = var.terminationGracePeriodSeconds
     concurrent                    = var.concurrent
     certSecretName                = var.certSecretName
