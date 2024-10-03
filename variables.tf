@@ -82,6 +82,11 @@ variable "readinessProbe" {
   default = {}
 }
 
+variable "gitlabUrl" {
+  description = "The GitLab Server URL (with protocol) that want to register the runner against."
+  type        = string
+}
+
 variable "replicas" {
   description = "The number of runner pods to create."
   type        = number
@@ -786,7 +791,6 @@ variable "runners" {
     config = list(object({
       executor = optional(string, "kubernetes")
       shell    = optional(string, "bash")
-      url      = optional(string, "https://gitlab.com/") //TODO: values.gitlabUrl? The GitLab Server URL (with protocol) that want to register the runner against
 
       environment = optional(list(string), null)
       cache_dir   = optional(string)

@@ -19,9 +19,9 @@ locals {
 
     livenessProbe  = var.livenessProbe
     readinessProbe = var.readinessProbe
+    replicas       = var.replicas
 
-    replicas = var.replicas
-
+    gitlabUrl                     = var.gitlabUrl
     runnerToken                   = var.runnerToken
     uregisterRunners              = var.unregisterRunners
     terminationGracePeriodSeconds = var.terminationGracePeriodSeconds
