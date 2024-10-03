@@ -8,7 +8,7 @@ GitLab has been systematically moving configuration attributes to TOML format. T
 
 ## Why "Lazy"?
 
-I call this module "lazy" because it uses a simple approach, unlike the more complex solutions in the old project. Here's why:
+We call this module "lazy" because it uses a simple approach, unlike the more complex solutions in the old project. Here's why:
 
 1. **Easy Setup**: We keep things consistent between Terraform and GitLab. For example, if GitLab uses camelCase, we use it in Terraform too. This:
    - Makes things simpler
@@ -29,20 +29,17 @@ This "lazy" way focuses on keeping things simple and clear. It makes the module 
 - Designed to be more adaptable to GitLab's evolving configuration standards
 
 ## Getting Started
-
-**Please Note: This module is currently under active development and is not yet ready for production use.**
-
-I'm  working diligently to create a stable and feature-complete version of this module. While we're excited about its potential, we advise against using it in any critical or production environments at this time.
+The first stable version of this module is now available (since v0.2.0)! You can find example configurations in the `samples` directory.
 
 ### Development Status
 
 - [x] Core functionality implementation
-- [ ] Testing and validation
+- [x] Testing and validation
 - [x] Documentation
-- [ ] Example configurations
-- [ ] First stable release
+- [x] Example configurations
+- [x] First stable release
 
-I appreciate your interest in this project. If you'd like to contribute or stay updated on its progress, please:
+We appreciate your interest in this project. If you'd like to contribute or stay updated on its progress, please:
 
 1. Star this repository to show your support
 2. Watch this repository for updates
