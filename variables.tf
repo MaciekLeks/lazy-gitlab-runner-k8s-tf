@@ -14,6 +14,12 @@ variable "helm_settings" {
   default = {}
 }
 
+variable "fullnameOverride" {
+  description = "Override the full name of the k8s resources."
+  type        = string
+  default     = null
+}
+
 variable "values_file" {
   description = "Path to Values file to be passed to gitlab-runner helm chart"
   default     = null

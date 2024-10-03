@@ -12,6 +12,8 @@ locals {
   values_file = var.values_file != null ? file(var.values_file) : ""
 
   values = {
+    fullnameOverride = var.fullnameOverride
+
     image            = var.image
     useTiny          = var.useTiny
     imagePullPolicy  = var.imagePullPolicy
