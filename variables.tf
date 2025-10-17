@@ -10,6 +10,9 @@ variable "helm_settings" {
     atomic           = optional(bool, true)
     wait             = optional(bool, true)
     timeout          = optional(number, 300)
+    replace          = optional(bool, false)
+    force_update     = optional(bool, false)
+    recreate_pods    = optional(bool, false)
   })
   default = {}
 }

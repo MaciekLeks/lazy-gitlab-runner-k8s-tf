@@ -85,6 +85,9 @@ resource "helm_release" "gitlab_runner" {
   atomic           = var.helm_settings.atomic
   wait             = var.helm_settings.wait
   timeout          = var.helm_settings.timeout
+  replace          = var.helm_settings.replace
+  force_update     = var.helm_settings.force_update
+  recreate_pods    = var.helm_settings.recreate_pods
 
   values = [
     yamlencode(local.values),
