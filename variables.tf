@@ -13,6 +13,7 @@ variable "helm_settings" {
     replace          = optional(bool, false)
     force_update     = optional(bool, false)
     recreate_pods    = optional(bool, false)
+    max_history      = optional(number, 0)
   })
   default = {}
 }

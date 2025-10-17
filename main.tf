@@ -88,6 +88,7 @@ resource "helm_release" "gitlab_runner" {
   replace          = var.helm_settings.replace
   force_update     = var.helm_settings.force_update
   recreate_pods    = var.helm_settings.recreate_pods
+  max_history      = var.helm_settings.max_history
 
   values = [
     yamlencode(local.values),
