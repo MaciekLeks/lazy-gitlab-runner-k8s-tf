@@ -802,7 +802,7 @@ variable "runners" {
       executor = optional(string, "kubernetes")
       shell    = optional(string, "bash")
 
-      limit               = optional(number, 0) //Limit how many jobs can be handled concurrently by this registered runner. 0 (default) means do not limit. 
+      limit               = optional(number, 0) //Limit how many jobs can be handled concurrently by this registered runner. Default is 0, which means not limit. 
       request_concurrency = optional(number, 1) //Max number of concurrent requests for new jobs to Gitlab. Default is 1.
 
       environment = optional(list(string), null)
